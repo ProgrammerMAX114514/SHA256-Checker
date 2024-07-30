@@ -237,7 +237,7 @@ def check_sha256_f2h(file, hash):
         with open(file, "rb") as f:
             _hash = sha256(f.read()).hexdigest().lower()
             info(f'GET SHA256 from file "{f}": "{sha256}"')
-            return _hash == hash
+            return _hash == hash.lower()
     except FileNotFoundError:
         error(f'File not found: "{file}"')
         se(default_title, f'错误：没有找到文件 "{file}"')
@@ -258,7 +258,7 @@ def check_sha256_f2h(file, hash):
 def check_sha256_h2h(hash_1, hash_2):
     try:
         info("Checking SHA256...(h2h)")
-        return hash_1 == hash_2
+        return hash_1.lower() == hash_2.lower()
     except Exception as e:
         error(f"An error occurred while checking the SHA256 value: {e.with_traceback(e.__traceback__)}")
         se(default_title, f"错误：一个错误在检查SHA256值时发生：{e.with_traceback(e.__traceback__)}")
