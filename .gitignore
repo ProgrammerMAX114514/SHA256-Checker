@@ -1,0 +1,7 @@
+__pycache__
+*.bat
+*.bak
+*.spec
+build
+dist
+*.exe
