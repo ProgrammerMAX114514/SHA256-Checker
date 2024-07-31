@@ -201,13 +201,13 @@ def check_sha256_f2f(file_1, file_2):
     info("Checking SHA256...(f2f)")
     try:
         with open(file_1, "rb") as f1, open(file_2, "rb") as f2:
-            sha256_1 = sha256(f1.read()).hexdigest().lower()
+            sha256_1 = sha256(f1.read()).hexdigest()
             if not is_sha256(sha256_1):
                 info(f'Invalid SHA256 value "{sha256_1}". Please provide a correct SHA256 value.')
                 se(default_title, "错误：无效的SHA256值。请提供正确的SHA256值。")
                 return -1
             info(f'GET SHA2561: "{sha256_1}"')
-            sha256_2 = sha256(f2.read()).hexdigest().lower()
+            sha256_2 = sha256(f2.read()).hexdigest()
             if not is_sha256(sha256_2):
                 info(f'Invalid SHA256 value "{sha256_2}". Please provide a correct SHA256 value.')
                 se(default_title, "错误：无效的SHA256值。请提供正确的SHA256值。")
