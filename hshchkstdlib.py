@@ -49,7 +49,7 @@ except ImportError as e:
             exit(1)
 
 # 版本
-version = "v0.1.0-SNAPSHOT"
+version = "v0.1.0"
 
 # 软件开源许可证(MIT License)
 MIT_LICENSE = """MIT License
