@@ -1,6 +1,6 @@
 # hash checker
 # encoding: utf-8
-# LICENSE: MIT (See LICENSE file for more infomation)
+# LICENSE: MIT (See LICENSE file for more information)
 from hshchkstdlib import *
 
 # 主程序入口
