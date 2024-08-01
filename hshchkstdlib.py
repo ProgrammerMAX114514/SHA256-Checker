@@ -189,6 +189,8 @@ def open_file():
 # 验证SHA256值有效性
 def is_sha256(sha256):
     info("Checking SHA256...")
+    if type(sha256) != str:
+        return False
     if len(sha256) != 64:
         return False
     for char in sha256:
@@ -235,9 +237,9 @@ def check_sha256_f2h(file, hash):
     try:
         info("Checking SHA256...(f2h)")
         with open(file, "rb") as f:
-            _hash = sha256(f.read()).hexdigest().lower()
+            _hash = sha256(f.read()).hexdigest()
             info(f'GET SHA256 from file "{f}": "{sha256}"')
-            return _hash == hash.lower()
+            return _hash == hash
     except FileNotFoundError:
         error(f'File not found: "{file}"')
         se(default_title, f'错误：没有找到文件 "{file}"')
