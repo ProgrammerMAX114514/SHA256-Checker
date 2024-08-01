@@ -21,6 +21,7 @@
 - [tqdm](https://github.com/tqdm/tqdm)：非官方库，用于显示进度条。
 - [logging](https://docs.python.org/3/library/logging.html)：Python标准库，用于记录日志。
 - [rich](https://github.com/Textualize/rich)：非官方库，用于美化输出。
+- 任意具有Python 3.x的运行环境（注意：该项目只在Windows 11 23H2 x64环境下测试过，不保证对其它系统的兼容性）。
 
 ## 安装指南
 
