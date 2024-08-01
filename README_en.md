@@ -1,5 +1,7 @@
 英语(美国)/en_US
+
 *Warning: This documentation is originally written in Simplified Chinese (Mainland China) and has been machinically translated. We cannot guarantee 100% accuracy of the translation.*
+
 *警告：本文档原来是以简体中文（中国大陆）编写的，并经过机器翻译。我们无法保证翻译的100%准确性。*
 
 # SHA256 Checker
@@ -27,6 +29,7 @@ This is a simple Python script tool that checks the hash values (SHA256) of file
 - **GUI interface**: Use the `tkinter` module to build a GUI interface, which is easy to use (even very bad, haha).
 
 ## Dependencies
+
 - Python 3.x
 - [hashlib](https://docs.python.org/3/library/hashlib.html): Python standard library, used to calculate hash values.
 - [tkinter](https://docs.python.org/3/library/tkinter.html): Python standard library, used to build GUI interface.
@@ -50,6 +53,7 @@ This is a simple Python script tool that checks the hash values (SHA256) of file
    ```
 
 ### Usage Instructions
+
 1. Clone this project to your local machine:
 2. Enter the project directory:
 3. Run the script:
@@ -67,9 +71,9 @@ This is a simple Python script tool that checks the hash values (SHA256) of file
         pip install pyinstaller
         ```
         - For users in China, you can use the mirror source:
-        - ```shell
-        pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pyinstaller
-        ```
+          ```shell
+          pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pyinstaller
+          ```
       - Note: You may need administrator privileges to install the `pyinstaller` library. The actual situation is different, please operate according to your actual situation.
   2. Package:
     ```shell
