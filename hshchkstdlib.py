@@ -2,9 +2,9 @@ try:
     from hashlib import sha256
     from rich.logging import RichHandler
     from rich import traceback, print
-    from logging import basicConfig, INFO, info, warning, error
+    from logging import basicConfig, INFO, info, warning, error, exception
     from tkinter.filedialog import askopenfilename
-    from tkinter import Tk
+    from tkinter import Tk, scrolledtext, INSERT, WORD, Button, BOTTOM
     from tkinter.simpledialog import askstring
     from tkinter.messagebox import showinfo as si
     from tkinter.messagebox import showerror as se
@@ -83,36 +83,20 @@ error_hash_not_typed = f"错误：没有输入哈希值。{' '*32}"
 error_hash_not_correct = "错误：哈希值错误。两个文件不相同。\n如果该文件来源于Internet下载，你的文件可能在传输过程中被篡改或因网络连接问题而损坏。"
 error_type_error = "错误：输入错误，请重新输入。"
 
-def _license():
-    license_file_exists = True
-    try:
-        with open("LICENSE","r",encoding="utf-8"):
-            pass
-    except:
-        warning("Cannot open the LICENSE file. The program will use built-in LICENSE file.")
-        license_file_exists = False
-    if license_file_exists == False:
-        global MIT_LICENSE
-        info("This project uses MIT License:")
-        for line in MIT_LICENSE.split("\n"):
-            info(line.strip())
-    else:
-        info("Using LICENSE file.")
-        info("This project uses MIT License:")
-        with open("LICENSE","r",encoding="utf-8") as f:
-            for line in f:
-                info(line.strip())
-    info("If you continue, you agree to the terms of the MIT License.")
-    info("If you do not agree to the terms of the MIT License, press CTRL+C anytime to exit the program.")
-    try:
-        s(5)
-    except KeyboardInterrupt:
-        error("You did not agree to the terms of the MIT License.")
-        error("The program will exit now.")
-        exit(0)
+def on_agree():
+    info("已同意软件开源许可协议。")
+    root.quit()
+
+def on_disagree():
+    root.withdraw()
+    root.quit()
+    error("你已拒绝软件开源许可协议。程序即将退出。")
+    se("拒绝","你已拒绝软件开源许可协议。程序即将退出。")
+    exit(1)
 
 # INIT
 def init():
+    global MIT_LICENSE, root
     basicConfig(level=INFO, format="%(asctime)s %(message)s", datefmt="[%Y-%m-%d %H:%M:%S]", handlers=[RichHandler()])
     info(f"Starting SHA256 Hash Checker version {version}")
     info("Intializing...")
@@ -123,6 +107,18 @@ def init():
     traceback.install(show_locals=True)
     info("Stage: intialize root window")
     root=Tk()
+    root.geometry("600x450")
+    root.resizable(False, False)
+    root.title("软件开源许可协议")
+    text_box=scrolledtext.ScrolledText(root, wrap=WORD)
+    text_box.insert(INSERT, MIT_LICENSE)
+    text_box.configure(state="disabled")
+    text_box.pack(padx=10,pady=10)
+    disagree_button = Button(root, text="我不同意", command=on_disagree)
+    agree_button=Button(root,text="我同意",command=on_agree)
+    agree_button.pack(side=BOTTOM, padx=(10, 5))
+    disagree_button.pack(side=BOTTOM, padx=(5, 10))
+    root.mainloop()
     info("Stage: hide root window")
     root.withdraw()
     s(0.5)
@@ -143,6 +139,11 @@ def init():
     tkinter.
     ├── filedialog
     ├── Tk
+    ├── INSERT
+    ├── WORD
+    ├── LEFT
+    ├── Button
+    ├── scrolledtext
     ├── simpledialog.
     │   └── askstring
     └── messagebox.
@@ -153,7 +154,6 @@ def init():
     time.
     └── sleep -> s""")
     s(3)
-    _license()
     info("Program started.")
     info("Initiation completed.")
     s(1)
@@ -170,7 +170,7 @@ def ask_op():
     try:
         op = askstring(default_title, f"{text}\n请输入数字选择校验方式：{' '*15}")
     except Exception as e:
-        error(f"An error occurred while asking user's operation choice: {e.with_traceback(e.__traceback__)}")
+        exception(f"An error occurred while asking user's operation choice: {e.with_traceback(e.__traceback__)}")
         return None
     if op == "":
         op = "<empty>"
@@ -229,7 +229,7 @@ def check_sha256_f2f(file_1, file_2):
         se(default_title, "错误：无效的文件路径。请提供正确的文件路径。")
         return -1
     except Exception as e:
-        error(f"An error occurred while checking the SHA256 value: {e.with_traceback(e.__traceback__)}")
+        exception(f"An error occurred while checking the SHA256 value: {e.with_traceback(e.__traceback__)}")
         se(default_title, f"错误：一个错误在检查SHA256值时发生：{e.with_traceback(e.__traceback__)}")
         return -1
 # 检查SHA256值（文件对已知哈希值）
@@ -253,7 +253,7 @@ def check_sha256_f2h(file, hash):
         se(default_title, "错误：无效的文件路径。请提供正确的文件路径。")
         return False
     except Exception as e:
-        error(f'An error occurred while checking the SHA256 value: "{e.with_traceback(e.__traceback__)}"')
+        exception(f'An error occurred while checking the SHA256 value: "{e.with_traceback(e.__traceback__)}"')
         se(default_title, f'错误：一个错误在检查SHA256值时发生："{e.with_traceback(e.__traceback__)}"')
         return False
 # 检查SHA256值（已知哈希值对已知哈希值）
@@ -262,7 +262,7 @@ def check_sha256_h2h(hash_1, hash_2):
         info("Checking SHA256...(h2h)")
         return hash_1.lower() == hash_2.lower()
     except Exception as e:
-        error(f"An error occurred while checking the SHA256 value: {e.with_traceback(e.__traceback__)}")
+        exception(f"An error occurred while checking the SHA256 value: {e.with_traceback(e.__traceback__)}")
         se(default_title, f"错误：一个错误在检查SHA256值时发生：{e.with_traceback(e.__traceback__)}")
         return False
 # choice=1
@@ -358,7 +358,7 @@ def choice_handler(choice):
             info(f"Input error:{choice}")
             se(default_title, error_type_error)
     except Exception as e:
-        error(f"An error occurred while handling the user's choice {choice}: {e.with_traceback(e.__traceback__)}")
+        exception(f"An error occurred while handling the user's choice {choice}: {e.with_traceback(e.__traceback__)}")
         se(default_title, f"错误：一个错误发生在处理用户的请求 {choice} 时发生: {e.with_traceback(e.__traceback__)}")
 
 def demo():
@@ -386,5 +386,5 @@ if __name__ == "__main__":
         info("Exiting...")
         exit(0)
     except Exception as e:
-        error(f"An error occurred while running the program: {e.with_traceback(e.__traceback__)}")
+        exception(f"An error occurred while running the program: {e.with_traceback(e.__traceback__)}")
         se(default_title, f"An error occurred while running tge program: {e.with_traceback(e.__traceback__)}")        
