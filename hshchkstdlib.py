@@ -121,6 +121,8 @@ def init():
     disagree_button.pack(side=BOTTOM, padx=(5, 10))
     try:
         root.mainloop()
+        info("Stage: hide root window")
+        root.withdraw()
     except TclError:
         error("你已拒绝软件开源许可协议。程序即将退出。")
         se("拒绝","你已拒绝软件开源许可协议。程序即将退出。")
