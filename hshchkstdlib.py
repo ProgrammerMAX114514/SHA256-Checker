@@ -8,6 +8,7 @@ try:
     from tkinter.simpledialog import askstring
     from tkinter.messagebox import showinfo as si
     from tkinter.messagebox import showerror as se
+    from _tkinter import TclError
     from sys import exit
     from time import sleep as s
 except ImportError as e:
@@ -118,7 +119,16 @@ def init():
     agree_button=Button(root,text="我同意",command=on_agree)
     agree_button.pack(side=BOTTOM, padx=(10, 5))
     disagree_button.pack(side=BOTTOM, padx=(5, 10))
-    root.mainloop()
+    try:
+        root.mainloop()
+    except TclError:
+        error("你已拒绝软件开源许可协议。程序即将退出。")
+        se("拒绝","你已拒绝软件开源许可协议。程序即将退出。")
+        exit(1)
+    except Exception as e:
+        exception(f"An error occurred while showing the license agreement: {e.with_traceback(e.__traceback__)}")
+        se(f"An error occurred while showing the license agreement: {e.with_traceback(e.__traceback__)}")
+        exit(-1)
     info("Stage: hide root window")
     root.withdraw()
     s(0.5)
@@ -135,6 +145,7 @@ def init():
     ├── INFO
     ├── info
     ├── warning
+    ├── exception
     └── error
     tkinter.
     ├── filedialog
@@ -149,6 +160,8 @@ def init():
     └── messagebox.
         ├── showinfo -> si
         └── showerror -> se
+    _tkinter
+    └── TclError 
     sys.
     └── exit
     time.
