@@ -18,5 +18,5 @@ if __name__ == "__main__":
         info("Exiting...")
         exit(0)
     except Exception as e:
-        error(f"An error occurred while running the program: {e.with_traceback(e.__traceback__)}")
+        exception(f"An error occurred while running the program: {e.with_traceback(e.__traceback__)}")
         se(default_title, f"错误：一个错误在运行程序时发生：{e.with_traceback(e.__traceback__)}")
